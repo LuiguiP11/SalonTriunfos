@@ -1,0 +1,197 @@
+:root {
+    --bg-color: #000;
+    --primary-color: #16213e;
+    --secondary-color: #0f3460;
+    --highlight-color: #e94560;
+    --text-color: #dcdcdc;
+    --font-title: 'Orbitron', sans-serif;
+    --font-body: 'Montserrat', sans-serif;
+
+    /* Paleta JHIROS para el borde que palpita */
+    --jhiros-blue: #00BFFF; /* Azul eléctrico */
+    --jhiros-pink: #FF69B4; /* Rosa neón */
+    --jhiros-orange: #FFA500; /* Naranja vibrante */
+    --jhiros-yellow: #FFFF00; /* Amarillo neón */
+    --jhiros-lime: #32CD32; /* Verde lima */
+    --jhiros-celeste: #87CEFA; /* Celeste suave */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+#fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+header {
+    padding: 2rem;
+    animation: fadeInDown 1.5s ease-out;
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    width: 120px;
+    margin-bottom: 1rem;
+    animation: popIn 1s ease-out 0.5s;
+    animation-fill-mode: backwards;
+}
+
+h1, .subtitle {
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    color: #fff;
+    text-shadow: 0 0 10px var(--highlight-color), 0 0 20px var(--highlight-color), 0 0 30px #fff;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.plaque-container {
+    perspective: 1000px;
+    margin: 2rem;
+    animation: slideInUp 1.5s ease-out 0.8s;
+    animation-fill-mode: backwards;
+}
+
+.plaque {
+    width: 350px;
+    height: 220px;
+    background: linear-gradient(145deg, rgba(22, 33, 62, 0.7), rgba(15, 52, 96, 0.7));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid var(--highlight-color); /* Borde base */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--highlight-color) inset;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    transform-style: preserve-3d;
+
+    /* Efecto de Borde que Palpita */
+    animation: border-glow 4s infinite alternate;
+}
+
+@keyframes border-glow {
+    0% { border-color: var(--jhiros-blue); box-shadow: 0 0 15px var(--jhiros-blue) inset, 0 0 20px var(--jhiros-blue); }
+    20% { border-color: var(--jhiros-pink); box-shadow: 0 0 15px var(--jhiros-pink) inset, 0 0 20px var(--jhiros-pink); }
+    40% { border-color: var(--jhiros-orange); box-shadow: 0 0 15px var(--jhiros-orange) inset, 0 0 20px var(--jhiros-orange); }
+    60% { border-color: var(--jhiros-yellow); box-shadow: 0 0 15px var(--jhiros-yellow) inset, 0 0 20px var(--jhiros-yellow); }
+    80% { border-color: var(--jhiros-lime); box-shadow: 0 0 15px var(--jhiros-lime) inset, 0 0 20px var(--jhiros-lime); }
+    100% { border-color: var(--jhiros-celeste); box-shadow: 0 0 15px var(--jhiros-celeste) inset, 0 0 20px var(--jhiros-celeste); }
+}
+
+
+.plaque:hover {
+    transform: rotateY(5deg) rotateX(5deg) scale(1.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px var(--highlight-color) inset;
+}
+
+.plaque-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    transform: translate(-50%, -50%); /* Centra el gradiente radial en el ratón */
+}
+
+.plaque:hover .plaque-shine {
+    opacity: 1; /* Mostrar al pasar el ratón */
+}
+
+.plaque-content {
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.plaque-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.plaque-title {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 0.5rem 0;
+    text-shadow: 0 0 5px var(--highlight-color);
+}
+
+.plaque-date {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.plaque-description {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+footer {
+    padding: 2rem;
+    margin-top: 4rem;
+    font-size: 0.9rem;
+    color: #aaa;
+    position: relative;
+    z-index: 1;
+}
+
+/* Animaciones de Entrada */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
